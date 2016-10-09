@@ -104,7 +104,7 @@ $ ./example path/to/some/video/file.avi
 
 ### Documentation
 
-The full documentation can be found [here](https://cpbridge.github.io/RIFeatures/) or generated from the sourceusing Doxygen. To do this, install the [Doxygen](doxygen.org)
+The full documentation can be found [here](https://cpbridge.github.io/RIFeatures/) or generated from the source using Doxygen. To do this, install the [Doxygen](doxygen.org)
 tool (available in most GNU/Linux repositories) and from the `doc` directory run.
 
 ```bash
