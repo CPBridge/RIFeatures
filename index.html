@@ -100,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>The <a href="www.boost.org">boost</a> <a href="http://www.boost.org/doc/libs/1_62_0/libs/math/doc/html/special.html">special functions</a> library. Again there is likely to be a suitable packaged version on your GNU/Linux distribution.</li>
 </ul>
 <h3>Installation and Compilation</h3>
-<p>The library consists of a shared object library (<code>librifeature.so</code>) and a set of headers.</p>
+<p>The library consists of a shared object library (<code>librifeatures.so</code>) and a set of headers.</p>
 <p>In order to use the library you will need to compile all the source files in the <code>src</code> directory to create the object file and install it somewhere on the dynamic linker path on your system. You will also need to copy the header files (in the <code>include</code> directory) to somewhere your compiler will find them, or point your compiler at them each time.</p>
 <p>A makefile is provided to automate these task on most GNU/Linux operating systems using the <code>g++</code> compiler. To use this, navigate to the <code>build</code> directory and execute the following commands:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ make</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;$ sudo make install</div></div><!-- fragment --><p>You can also compile and install a debug version of the library (<code>librifeaturesd.so</code>) with:</p>
@@ -112,7 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>You can compile it (once the library has been installed, as above) by running the following from the <code>build</code> directory:</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ sudo make example</div></div><!-- fragment --><p>You can then run it with on a video file (<code>path/to/some/video/file.avi</code>):</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ ./example path/to/some/video/file.avi</div></div><!-- fragment --><h3>Documentation</h3>
-<p>The full documentation can be found <a href="https://cpbridge.github.io/RIFeatures/">here</a> or generated from the sourceusing Doxygen. To do this, install the <a href="doxygen.org">Doxygen</a> tool (available in most GNU/Linux repositories) and from the <code>doc</code> directory run.</p>
+<p>The full documentation can be found <a href="https://cpbridge.github.io/RIFeatures/">here</a> or generated from the source using Doxygen. To do this, install the <a href="doxygen.org">Doxygen</a> tool (available in most GNU/Linux repositories) and from the <code>doc</code> directory run.</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ doygen Doxyfile</div></div><!-- fragment --><p>This will generate an html version of the documentation in the <code>html</code> subdirectory, which you can view by opening <code>index.html</code> in your browser.</p>
 <h3>Publications</h3>
 <p>This library was used in the following publications:</p><ul>
