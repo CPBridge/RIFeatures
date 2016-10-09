@@ -40,7 +40,7 @@ be a suitable packaged version in your distribution's repository.
 
 ### Installation and Compilation
 
-The library consists of a shared object library (`librifeature.so`) and a set of
+The library consists of a shared object library (`librifeatures.so`) and a set of
 headers.
 
 In order to use the library you will need to compile all the source files in the
