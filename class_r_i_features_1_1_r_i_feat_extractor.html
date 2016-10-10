@@ -398,9 +398,9 @@ Static Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">image_size</td><td>Size that the input images will be </td></tr>
     <tr><td class="paramname">basis_diameter</td><td>Diameter (in pixels) of the circular detection window </td></tr>
-    <tr><td class="paramname">num_radii</td><td>Number of radial profiles in the set of basis functions (parameter J) </td></tr>
-    <tr><td class="paramname">num_rot_orders</td><td>Maximum rotation order in the set of basis functions (parameter K) </td></tr>
-    <tr><td class="paramname">num_fourier_coefs</td><td>Number of Fourier coefficients in the orientation histogram expansion (parameter M) </td></tr>
+    <tr><td class="paramname">num_radii</td><td>Number of radial profiles in the set of basis functions (parameter J). Note that negative values are not permitted and will be silently treated as 0. </td></tr>
+    <tr><td class="paramname">num_rot_orders</td><td>Maximum rotation order in the set of basis functions (parameter K). Note that currently values above 6 are not implemented and will be treated as 6. </td></tr>
+    <tr><td class="paramname">num_fourier_coefs</td><td>Number of Fourier coefficients in the orientation histogram expansion (parameter M). Note that negative values are not permitted and will be silently treated as 0. </td></tr>
     <tr><td class="paramname">method</td><td>Calculation method the object will use to calulate the raw features </td></tr>
     <tr><td class="paramname">use_spatial_memoisation</td><td>If true, use a memoiser to store values calculated using the spatial method. This will have no effect if method is set to <code>cmFrequency</code>. </td></tr>
     <tr><td class="paramname">couple_method</td><td>Method to use for coupling calculations between raw features </td></tr>
@@ -904,9 +904,9 @@ template&lt;typename TInputIterator , typename TOutputIterator &gt; </div>
   <table class="params">
     <tr><td class="paramname">image_size</td><td>Size that the input images will be </td></tr>
     <tr><td class="paramname">basis_diameter</td><td>Diameter (in pixels) of the circular detection window </td></tr>
-    <tr><td class="paramname">num_radii</td><td>Number of radial profiles in the set of basis functions (parameter J) </td></tr>
-    <tr><td class="paramname">num_rot_orders</td><td>Maximum rotation order in the set of basis functions (parameter K) </td></tr>
-    <tr><td class="paramname">num_fourier_coefs</td><td>Number of Fourier coefficients in the orientation histogram expansion (parameter M) </td></tr>
+    <tr><td class="paramname">num_radii</td><td>Number of radial profiles in the set of basis functions (parameter J). Note that negative values are not permitted and will be silently treated as 0. </td></tr>
+    <tr><td class="paramname">num_rot_orders</td><td>Maximum rotation order in the set of basis functions (parameter K). Note that currently values above 6 are not implemented and will be treated as 6. </td></tr>
+    <tr><td class="paramname">num_fourier_coefs</td><td>Number of Fourier coefficients in the orientation histogram expansion (parameter M). Note that negative values are not permitted and will be silently treated as 0. </td></tr>
     <tr><td class="paramname">method</td><td>Calculation method the object will use to calulate the raw features </td></tr>
     <tr><td class="paramname">use_spatial_memoisation</td><td>If true, use a memoiser to store values calculated using the spatial method. This will have no effect if method is set to <code>cmFrequency</code>. </td></tr>
     <tr><td class="paramname">couple_method</td><td>Method to use for coupling calculations between raw features </td></tr>
