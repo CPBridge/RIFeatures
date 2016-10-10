@@ -24,11 +24,15 @@ RIFeatExtractor::RIFeatExtractor()
 * Constructs a fully functional object. Defines various parameters of the object. This may be slow due to the need to precalculate the basis functions.
 * \param image_size Size that the input images will be
 * \param basis_diameter Diameter (in pixels) of the circular detection window
-* \param num_radii Number of radial profiles in the set of basis functions (parameter J)
-* \param num_rot_orders Maximum rotation order in the set of basis functions (parameter K)
-* \param num_fourier_coefs Number of Fourier coefficients in the orientation histogram expansion (parameter M)
+* \param num_radii Number of radial profiles in the set of basis functions (parameter J).
+* Note that negative values are not permitted and will be silently treated as 0.
+* \param num_rot_orders Maximum rotation order in the set of basis functions (parameter K).
+* Note that currently values above 6 are not implemented and will be treated as 6.
+* \param num_fourier_coefs Number of Fourier coefficients in the orientation histogram expansion (parameter M).
+* Note that negative values are not permitted and will be silently treated as 0.
 * \param method Calculation method the object will use to calulate the raw features
-* \param use_spatial_memoisation If true, use a memoiser to store values calculated using the spatial method. This will have no effect if method is set to \c cmFrequency.
+* \param use_spatial_memoisation If true, use a memoiser to store values calculated
+* using the spatial method. This will have no effect if method is set to \c cmFrequency.
 * \param couple_method Method to use for coupling calculations between raw features
 * \param feature_set Type of derived features that can be extracted. Governs what type of coupling is available
 * \param max_derived_rotation_order Maximum rotation order of derived features
@@ -46,11 +50,15 @@ RIFeatExtractor::RIFeatExtractor(const cv::Size image_size, const float basis_di
 * Defines various parameters of the object. This may be slow due to the need to precalculate the basis functions.
 * \param image_size Size that the input images will be
 * \param basis_diameter Diameter (in pixels) of the circular detection window
-* \param num_radii Number of radial profiles in the set of basis functions (parameter J)
-* \param num_rot_orders Maximum rotation order in the set of basis functions (parameter K)
-* \param num_fourier_coefs Number of Fourier coefficients in the orientation histogram expansion (parameter M)
+* \param num_radii Number of radial profiles in the set of basis functions (parameter J).
+* Note that negative values are not permitted and will be silently treated as 0.
+* \param num_rot_orders Maximum rotation order in the set of basis functions (parameter K).
+* Note that currently values above 6 are not implemented and will be treated as 6.
+* \param num_fourier_coefs Number of Fourier coefficients in the orientation histogram expansion (parameter M).
+* Note that negative values are not permitted and will be silently treated as 0.
 * \param method Calculation method the object will use to calulate the raw features
-* \param use_spatial_memoisation If true, use a memoiser to store values calculated using the spatial method. This will have no effect if method is set to \c cmFrequency.
+* \param use_spatial_memoisation If true, use a memoiser to store values calculated
+* using the spatial method. This will have no effect if method is set to \c cmFrequency.
 * \param couple_method Method to use for coupling calculations between raw features
 * \param feature_set Type of derived features that can be extracted. Governs what type of coupling is available
 * \param max_derived_rotation_order Maximum rotation order of derived features
@@ -62,9 +70,9 @@ void RIFeatExtractor::initialise(const cv::Size image_size, const float basis_di
 	xsize = image_size.width;
 	ysize = image_size.height;
 	basis_radius = basis_diameter/2.0;
-	nj = num_radii;
-	nk = num_rot_orders;
-	nm = num_fourier_coefs;
+	nj = (num_radii < 0) ? 0 : num_radii;
+	nk = (num_rot_orders > 6) ? 6 : num_rot_orders;
+	nm = (num_fourier_coefs < 0) ? 0 : num_fourier_coefs;
 	max_r = max_derived_rotation_order;
 	basis_type = basis_form;
 
