@@ -2,6 +2,8 @@
 
 A small C++ library for calculating rotation invariant image features.
 
+![A Rotation Invariant Basis Function Set](https://github.com/CPBrudge/RIFeatures/raw/master/README.png)
+
 ### Objectives
 
 The purpose of this library is to calculate rotation invariant features from 2D
@@ -19,7 +21,10 @@ described as thread-safe in the documentation should be used within parallel seg
 
 A detailed description of how the feature extraction method works, an evalution,
 and citations of relevant scientific literature will be found in my forthcoming
-DPhil (PhD) thesis, which will be uploaded on [this page](https://chrispbridge.wordpress.com/publications/) when it is finished.
+DPhil (PhD) thesis, which will be uploaded on
+[this page](https://chrispbridge.wordpress.com/publications/) when it is finished.
+You can find out more about how I am using the library on my
+[website](https://chrispbridge.wordpress.com/).
 
 **Disclaimer** This is research-quality code I have provided to enable others
 to understand, reproduce and develop my research. It is **not** intended to be
@@ -33,19 +38,20 @@ it correctly.
 
 * A C++ compiler supporting the C++11 standard (requires a relatively modern version of your compiler).
 * A C++ compiler supporting the [OpenMP](http://openmp.org/wp/) standard (includes most major compilers on major platforms including MSVC, g++ and clang).
-* The [OpenCV](opencv.org) library. Tested on version 3.1.0 but most fairly recent
+* The [OpenCV](http://opencv.org) library. Tested on version 3.1.0 but most fairly recent
 versions should be compatible. If you are using GNU/Linux, there will probably
 be a suitable packaged version in your distribution's repository.
-* The [boost](www.boost.org) [special functions](http://www.boost.org/doc/libs/1_62_0/libs/math/doc/html/special.html) library. Again there is likely to be a suitable packaged version on your GNU/Linux distribution.
+* The [boost](http://www.boost.org) [special functions](http://www.boost.org/doc/libs/1_62_0/libs/math/doc/html/special.html) library. Again there is likely to be a suitable packaged version on your GNU/Linux distribution.
 
 ### Installation and Compilation
 
-The library consists of a shared object library (`librifeatures.so`) and a set of
-headers.
+The library consists of a shared object library (`librifeatures.so` or `.dll` on
+Windows) and a set of headers.
 
 In order to use the library you will need to compile all the source files in the
 `src` directory to create the object file and install it somewhere on the dynamic linker
-path on your system. You will also need to copy the header files (in the `include` directory) to somewhere your compiler will find them, or point your compiler at them each time.
+path on your system. You will also need to copy the header files (in the `include`
+directory) to somewhere your compiler will find them, or point your compiler at them each time.
 
 A makefile is provided to automate these task on most GNU/Linux operating systems
 using the `g++` compiler. To use this, navigate to the `build` directory and
@@ -84,6 +90,9 @@ shared object, as well as using c++11 or later and the OpenMP extensions. E.g. t
 $ g++ -std=c++11 -fopenmp -o my_program my_program.cpp `pkg-config --libs opencv` -lrifeatures
 ```
 
+If you have decided not to install the library on your system as above, you just
+need to add the `include` directory to the of directories your compiler looks at
+for headers, and add the compiled shared object file to the linker dependencies.
 
 ### Example
 
@@ -104,7 +113,7 @@ $ ./example path/to/some/video/file.avi
 
 ### Documentation
 
-The full documentation can be found [here](https://cpbridge.github.io/RIFeatures/) or generated from the source using Doxygen. To do this, install the [Doxygen](doxygen.org)
+The full documentation can be found [here](https://cpbridge.github.io/RIFeatures/) or generated from the source using Doxygen. To do this, install the [Doxygen](http://doxygen.org)
 tool (available in most GNU/Linux repositories) and from the `doc` directory run.
 
 ```bash
