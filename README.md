@@ -2,7 +2,7 @@
 
 A small C++ library for calculating rotation invariant image features.
 
-![A Rotation Invariant Basis Function Set](https://github.com/CPBrudge/RIFeatures/raw/master/README.png)
+![A Rotation Invariant Basis Function Set](README.png?raw=true)
 
 ### Objectives
 
