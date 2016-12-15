@@ -53,7 +53,7 @@ In order to use the library you will need to compile all the source files in the
 path on your system. You will also need to copy the header files (in the `include`
 directory) to somewhere your compiler will find them, or point your compiler at them each time.
 
-A makefile is provided to automate these task on most GNU/Linux operating systems
+A makefile is provided to automate these tasks on most GNU/Linux operating systems
 using the `g++` compiler. To use this, navigate to the `build` directory and
 execute the following commands:
 
@@ -91,7 +91,7 @@ $ g++ -std=c++11 -fopenmp -o my_program my_program.cpp `pkg-config --libs opencv
 ```
 
 If you have decided not to install the library on your system as above, you just
-need to add the `include` directory to the of directories your compiler looks at
+need to add the `include` directory to the list of directories your compiler looks at
 for headers, and add the compiled shared object file to the linker dependencies.
 
 ### Example
@@ -126,9 +126,9 @@ which you can view by opening `index.html` in your browser.
 ### Publications
 
 This library was used in the following publications:
-* C.P. Bridge, C. Ioannou, and J.A. Noble, “Automated Annotation and Quantitative Description of Ultrasound Videos of the Fetal Heart”, Under Review
+* C.P. Bridge, C. Ioannou, and J.A. Noble, “Automated Annotation and Quantitative Description of Ultrasound Videos of the Fetal Heart”, *Medical Image Analysis* 36 (Feb. 2017), pp. 147-161
 
-If you use this library in your research, please consider citing this paper when (if?) it is published. Other relevant publications include:
+If you use this library in your research, please consider citing this paper. Other relevant publications include:
 
 * C.P. Bridge and J.A. Noble, “Object Localisation In Fetal Ultrasound Images Using Invariant Features”. Proceedings of the IEEE International Symposium on Biomedical Imaging, New York City, 2015
 
