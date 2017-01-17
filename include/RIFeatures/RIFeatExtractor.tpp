@@ -1,6 +1,8 @@
 // Written by Christopher Bridge for the RIFeatures library. Licensed under the
 // GNU general public license version 3.
 
+#include <limits>
+
 namespace RIFeatures
 {
 
@@ -151,38 +153,45 @@ void RIFeatExtractor::getDerivedFeature(TInputIterator first_point, const TInput
 			else
 				f2_val_cmplx = singleWindowFeature(f2,p);
 
+			// Normalise the features before multiplying to avoid numerical issues
+			// Need to be careful about dividing by zero here
+			// Arbitrarily set to 1.0 + 0.0 if the magnitude is too small
+			// to divide by, this effectlively pick an arbitrary orientation
+			if(std::abs(f1_val_cmplx) < 1.0/std::numeric_limits<float>::max())
+				f1_val_cmplx = std::complex<float>(1.0,0.0);
+			else
+				f1_val_cmplx /= std::abs(f1_val_cmplx);
+
+			if(std::abs(f2_val_cmplx) < 1.0/std::numeric_limits<float>::max())
+				f2_val_cmplx = std::complex<float>(1.0,0.0);
+			else
+				f2_val_cmplx /= std::abs(f2_val_cmplx);
+
 			// May need to raise the raw features to a power
 			if(raw_feat_r_list[f1] != raw_feat_r_list[f2])
 			{
-				f1_val_cmplx = std::pow(f1_val_cmplx,raw_feat_r_list[f2]);
 				f2_val_cmplx = std::pow(f2_val_cmplx,raw_feat_r_list[f1]);
+				f1_val_cmplx = std::pow(f1_val_cmplx,raw_feat_r_list[f2]);
 			}
 
 			const std::complex<float> coupledcmplx = f1_val_cmplx*std::conj(f2_val_cmplx);
+			assert(!std::isnan(coupledcmplx.real()) && !std::isnan(coupledcmplx.imag()));
 
-			const float complex_abs = std::abs(coupledcmplx);
-			if(complex_abs == 0.0)
-				*dest++ = 0.0;
-			else
+			// Return the normalised real/imaginary part
+			switch(type)
 			{
-				// Return the normalised real/imaginary part
-				switch(type)
-				{
-					case ftMagnitude:
-						// Cannot happen
-						assert(false);
-					break;
+				case ftMagnitude:
+					// Cannot happen
+					assert(false);
+				break;
 
-					case ftReal:
-						assert(!std::isnan(coupledcmplx.real()/complex_abs));
-						*dest++ = coupledcmplx.real()/complex_abs;
-					break;
+				case ftReal:
+					*dest++ = coupledcmplx.real();
+				break;
 
-					case ftImaginary:
-						assert(!std::isnan(coupledcmplx.imag()/complex_abs));
-						*dest++ = coupledcmplx.imag()/complex_abs;
-					break;
-				}
+				case ftImaginary:
+					*dest++ = coupledcmplx.imag();
+				break;
 			}
 		}
 	}
