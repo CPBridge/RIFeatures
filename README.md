@@ -102,7 +102,7 @@ You can compile it (once the library has been installed, as above) by running th
 following from the `build` directory:
 
 ```bash
-$ sudo make example
+$ make example
 ```
 
 You can then run it with on a video file (`path/to/some/video/file.avi`):
