@@ -207,6 +207,8 @@ void RIFeatExtractor::getDerivedFeatureVector(const cv::Point point, TOutputIter
 	std::vector<std::complex<float>> raw_vector(num_raw_features);
 	getRawFeatureVector(point, raw_vector.begin());
 
+	std::complex<float> coupled;
+
 	// Loop through derived features and calculate
 	for(int d = 0; d < num_derived_features; ++d)
 	{
@@ -220,7 +222,9 @@ void RIFeatExtractor::getDerivedFeatureVector(const cv::Point point, TOutputIter
 		}
 		else
 		{
-			const std::complex<float> coupled = coupleFeatures(raw_vector[f1],raw_feat_r_list[f1],raw_vector[f2],raw_feat_r_list[f2]);
+			// Check that the coupled feature is different from the last iteration
+			if( (d == 0) || (f1 != derived_feature_primary_list[d-1]) || (f2 != derived_feature_secondary_list[d-1]) )
+				coupled = coupleFeatures(raw_vector[f1],raw_feat_r_list[f1],raw_vector[f2],raw_feat_r_list[f2]);
 			*dest++ = derivedFeatureFromComplex(coupled,type);
 		}
 	}
