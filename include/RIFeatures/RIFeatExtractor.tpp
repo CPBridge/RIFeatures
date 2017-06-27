@@ -1,8 +1,6 @@
 // Written by Christopher Bridge for the RIFeatures library. Licensed under the
 // GNU general public license version 3.
 
-#include <limits>
-
 namespace RIFeatures
 {
 
@@ -13,11 +11,12 @@ namespace RIFeatures
 * The input image must have been set up prior to calling this method. The resulting
 * feature values are placed into the corresponding elements of the output sequence.
 *
-* You must also ensure that all the points are valid, i.e. at least the 'halfsize' of the relevant basis
-* function away from the image edge (see \c getMaxSpatBasisHalfsize()).
+* You must also ensure that all the points are valid, i.e. at least the
+* 'halfsize' of the relevant basis function away from the image edge (see
+* \c getMaxSpatBasisHalfsize()).
 *
 * This method is thread-safe in that it can be used in OpenMP parallel sections
-* where other threads are calling this method and/or getRawFeatureArg() without
+* where other threads are calling this method other thread-safe methods without
 * causing data races.
 * \tparam TInputIterator The type of the iterator to the start of the input sequence of image locations. This must dereference to a cv::Point and be at least an input iterator (according to C++ standard library definitions).
 * \tparam TOutputIterator The type of the iterator the output feature values. Must be at least an output iterator (according to C++ standard library definitions) and support assignment to a float value.
@@ -122,23 +121,7 @@ void RIFeatExtractor::getDerivedFeature(TInputIterator first_point, const TInput
 
 		if(f2 == C_SECOND_FEATURE_NONE)
 		{
-			switch(type)
-			{
-				case ftMagnitude:
-					assert(!std::isnan(std::abs(f1_val_cmplx)));
-					*dest++ = std::abs(f1_val_cmplx);
-				break;
-
-				case ftReal:
-					assert(!std::isnan(f1_val_cmplx.real()));
-					*dest++ = f1_val_cmplx.real();
-				break;
-
-				case ftImaginary:
-					assert(!std::isnan(f1_val_cmplx.real()));
-					*dest++ = f1_val_cmplx.imag();
-				break;
-			}
+			*dest++ = derivedFeatureFromComplex(f1_val_cmplx, type);
 		}
 		else
 		{
@@ -153,46 +136,8 @@ void RIFeatExtractor::getDerivedFeature(TInputIterator first_point, const TInput
 			else
 				f2_val_cmplx = singleWindowFeature(f2,p);
 
-			// Normalise the features before multiplying to avoid numerical issues
-			// Need to be careful about dividing by zero here
-			// Arbitrarily set to 1.0 + 0.0 if the magnitude is too small
-			// to divide by, this effectlively pick an arbitrary orientation
-			if(std::abs(f1_val_cmplx) < 1.0/std::numeric_limits<float>::max())
-				f1_val_cmplx = std::complex<float>(1.0,0.0);
-			else
-				f1_val_cmplx /= std::abs(f1_val_cmplx);
-
-			if(std::abs(f2_val_cmplx) < 1.0/std::numeric_limits<float>::max())
-				f2_val_cmplx = std::complex<float>(1.0,0.0);
-			else
-				f2_val_cmplx /= std::abs(f2_val_cmplx);
-
-			// May need to raise the raw features to a power
-			if(raw_feat_r_list[f1] != raw_feat_r_list[f2])
-			{
-				f2_val_cmplx = std::pow(f2_val_cmplx,raw_feat_r_list[f1]);
-				f1_val_cmplx = std::pow(f1_val_cmplx,raw_feat_r_list[f2]);
-			}
-
-			const std::complex<float> coupledcmplx = f1_val_cmplx*std::conj(f2_val_cmplx);
-			assert(!std::isnan(coupledcmplx.real()) && !std::isnan(coupledcmplx.imag()));
-
-			// Return the normalised real/imaginary part
-			switch(type)
-			{
-				case ftMagnitude:
-					// Cannot happen
-					assert(false);
-				break;
-
-				case ftReal:
-					*dest++ = coupledcmplx.real();
-				break;
-
-				case ftImaginary:
-					*dest++ = coupledcmplx.imag();
-				break;
-			}
+			std::complex<float> coupled = coupleFeatures(f1_val_cmplx,raw_feat_r_list[f1],f2_val_cmplx,raw_feat_r_list[f2]);
+			*dest++ = derivedFeatureFromComplex(coupled,type);
 		}
 	}
 }
@@ -234,6 +179,94 @@ void RIFeatExtractor::getDerivedFromSingleRawFeature(const int f, const featureT
 	}
 }
 
+/*! \brief Get a full feature vector for a single image location
+*
+* Takes a single image location and calculates the full feature vector of
+* derived features at this image location in the input image. The input image
+* must have been set up prior to calling this method. The resulting feature
+* values are placed into the output container, which must be pre-allocated to
+* the correct size (given by the \c getNumDerivedFeats() method).
+*
+* You must also ensure that all the points are valid, i.e. at least the
+* 'halfsize' of the relevant basis function away from the image edge (see \c
+* getMaxSpatBasisHalfsize()).
+*
+* This method is thread-safe in that it can be used in OpenMP parallel sections
+* where other threads are calling this method or other thread-safe methods without
+* causing data races.
+*
+* \tparam TOutputIterator The type of the iterator the output feature values. Must be at least an output iterator (according to C++ standard library definitions) and support assignment to a float value.
+*
+* \param point Image location, i.e. the centre of the detection window.
+* \param dest Output iterator to the start of the output container where the derived feature scores will be placed. The container must have been pre-allocated to the correct size before calling.
+*/
+template<typename TOutputIterator>
+void RIFeatExtractor::getDerivedFeatureVector(const cv::Point point, TOutputIterator dest)
+{
+	// Array to store raw feature values
+	std::vector<std::complex<float>> raw_vector(num_raw_features);
+	getRawFeatureVector(point, raw_vector.begin());
+
+	// Loop through derived features and calculate
+	for(int d = 0; d < num_derived_features; ++d)
+	{
+		const int f1 = derived_feature_primary_list[d];
+		const int f2 = derived_feature_secondary_list[d];
+		const featureType_enum type = derived_feature_type_list[d];
+
+		if(f2 == C_SECOND_FEATURE_NONE)
+		{
+			*dest++ = derivedFeatureFromComplex(raw_vector[f1],type);
+		}
+		else
+		{
+			const std::complex<float> coupled = coupleFeatures(raw_vector[f1],raw_feat_r_list[f1],raw_vector[f2],raw_feat_r_list[f2]);
+			*dest++ = derivedFeatureFromComplex(coupled,type);
+		}
+	}
+
+}
+
+/*! \brief Get a full raw feature vector for a single image location
+*
+* Takes a single image location and calculates the full feature vector of
+* raw features at this image location in the input image. The input image
+* must have been set up prior to calling this method. The resulting feature
+* values are placed into the output container, which must be pre-allocated to
+* the correct size (given by the \c getNumRawFeats() method).
+*
+* You must also ensure that all the points are valid, i.e. at least the
+* 'halfsize' of the relevant basis function away from the image edge (see \c
+* getMaxSpatBasisHalfsize()).
+*
+* This method is thread-safe in that it can be used in OpenMP parallel sections
+* where other threads are calling this method or other thread-safe methods without
+* causing data races.
+*
+* \tparam TOutputIterator The type of the iterator the output feature values. Must be at least an output iterator (according to C++ standard library definitions) that derefences to a std::complex<float>.
+*
+* \param point Image location, i.e. the centre of the detection window.
+* \param dest Output iterator to the start of the output container where the derived feature scores will be placed. The container must have been pre-allocated to the correct size before calling.
+*/
+template<typename TOutputIterator>
+void RIFeatExtractor::getRawFeatureVector(const cv::Point point, TOutputIterator dest)
+{
+	// Calculate all the raw features
+	for(int f = 0; f < num_raw_features; ++f)
+	{
+		if (checkRawFeatureValidity(f,always_use_frequency))
+		{
+			// Get the relevant element of the raw feature image
+			const cv::Vec2f& element = raw_feats_unpadded[f].at<cv::Vec2f>(point);
+			*dest++ = std::complex<float>(element[0],element[1]);
+		}
+		else
+		{
+			// Calculate using spatial filter
+			*dest++ = singleWindowFeature(f,point);
+		}
+	}
+}
 
 /*! \brief Get the complex argument of a raw feature at a number of image locations
 *
@@ -247,7 +280,7 @@ void RIFeatExtractor::getDerivedFromSingleRawFeature(const int f, const featureT
 * Note that these features are \b not rotation invariant.
 *
 * This method is thread-safe in that it can be used in OpenMP parallel sections
-* where other threads are calling this method and/or getDerivedFeature() without
+* where other threads are calling this method or other thread-safe methods without
 * causing data races.
 * \tparam TInputIterator The type of the iterator to the start of the input sequence of image locations. This must dereference to a cv::Point and be at least an input iterator (according to C++ standard library definitions).
 * \tparam TOutputIterator The type of the iterator the output feature values. Must be at least an output iterator (according to C++ standard library definitions) and support assignment to a float value.

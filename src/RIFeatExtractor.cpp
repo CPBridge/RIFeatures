@@ -2,6 +2,7 @@
 // GNU general public license version 3.
 
 #include <cmath>
+#include <limits>
 #include <cassert>
 #include <boost/math/special_functions/bessel.hpp>
 #include <RIFeatures/struve.hpp>
@@ -1299,6 +1300,60 @@ void RIFeatExtractor::fullImageCouple(cv::Mat_<cv::Vec2f>& coupled_image, const 
 	cv::divide(temp_planes[1],mag,temp_planes[1]);
 	cv::merge(temp_planes,2,coupled_image);
 
+}
+
+// Calculates a derived feature that depends on a single raw feature
+float RIFeatExtractor::derivedFeatureFromComplex(const std::complex<float> complex_feat, const featureType_enum type)
+{
+	float result = 0.0;
+	switch(type)
+	{
+		case ftMagnitude:
+			assert(!std::isnan(std::abs(complex_feat)));
+			result = std::abs(complex_feat);
+		break;
+
+		case ftReal:
+			assert(!std::isnan(complex_feat.real()));
+			result = complex_feat.real();
+		break;
+
+		case ftImaginary:
+			assert(!std::isnan(complex_feat.real()));
+			result = complex_feat.imag();
+		break;
+	}
+	return result;
+}
+
+// Takes two raw features and returns the derived feature due to coupling
+std::complex<float> RIFeatExtractor::coupleFeatures(std::complex<float> f1_val, const int r1, std::complex<float> f2_val, const int r2)
+{
+	// Normalise the features before multiplying to avoid numerical issues
+	// Need to be careful about dividing by zero here
+	// Arbitrarily set to 1.0 + 0.0 if the magnitude is too small
+	// to divide by, this effectlively pick an arbitrary orientation
+	if(std::abs(f1_val) < 1.0/std::numeric_limits<float>::max())
+		f1_val = std::complex<float>(1.0,0.0);
+	else
+		f1_val /= std::abs(f1_val);
+
+	if(std::abs(f2_val) < 1.0/std::numeric_limits<float>::max())
+		f2_val = std::complex<float>(1.0,0.0);
+	else
+		f2_val /= std::abs(f2_val);
+
+	// May need to raise the raw features to a power
+	if(r1 != r2)
+	{
+		f2_val = std::pow(f2_val,r1);
+		f1_val = std::pow(f1_val,r2);
+	}
+
+	const std::complex<float> coupledcmplx = f1_val*std::conj(f2_val);
+	assert(!std::isnan(coupledcmplx.real()) && !std::isnan(coupledcmplx.imag()));
+
+	return coupledcmplx;
 }
 
 // Check the validity of a raw feature image in a thread-safe manner and

@@ -1,5 +1,5 @@
 // Written by Christopher Bridge for the RIFeatures library. Licensed under the
-// GNU general public license version 3. 
+// GNU general public license version 3.
 
 #ifndef RIFEATEXTRACTOR_H
 #define RIFEATEXTRACTOR_H
@@ -78,6 +78,10 @@ class RIFeatExtractor
 		void getFeatsWithGivenR(const int r, std::vector<int> &raw_feat_ind, const bool include_negatives = false, const int Jmax = -1) const;
 		template<typename TInputIterator,typename TOutputIterator>
 		void getDerivedFeature(TInputIterator first_point, const TInputIterator last_point, const int derived_feat_num, TOutputIterator out);
+		template<typename TOutputIterator>
+		void getRawFeatureVector(const cv::Point point, TOutputIterator dest);
+		template<typename TOutputIterator>
+		void getDerivedFeatureVector(const cv::Point point, TOutputIterator dest);
 		template<typename TInputIterator,typename TOutputIterator>
 		void getRawFeatureArg(TInputIterator first_point, const TInputIterator last_point, const int raw_feature_index, TOutputIterator cos_dest, TOutputIterator sin_dest, const bool flip_negative_rotation_orders = false);
 		cv::Mat getSpatialBasisCopy(const int basis_index) const;
@@ -118,6 +122,8 @@ class RIFeatExtractor
 		template<typename TInputIterator,typename TOutputIterator>
 		void getDerivedFromSingleRawFeature(const int f, const featureType_enum type, TInputIterator first_point, const TInputIterator last_point, TOutputIterator dest);
 		void fullImageCouple(cv::Mat_<cv::Vec2f>& coupled_image, const int f1, const int f2);
+		static float derivedFeatureFromComplex(const std::complex<float> complex_feat, const featureType_enum type);
+		static std::complex<float> coupleFeatures(std::complex<float> f1_val, const int f1_ind, std::complex<float> f2_val, const int f2_ind);
 		bool checkRawFeatureValidity(const int f, const bool calculate_if_invalid);
 		int ensureMagnitudeImageValidity(const int f);
 		bool checkCoupledImageValidity(const int f1, const int f2, const bool calculate_if_invalid, int& index);
