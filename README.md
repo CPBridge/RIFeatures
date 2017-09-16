@@ -126,9 +126,11 @@ which you can view by opening `index.html` in your browser.
 ### Publications
 
 This library was used in the following publications:
+* C.P. Bridge, “Computer-Aided Analysis of Fetal Cardiac Ultrasound Videos”, DPhil Thesis, University of Oxford, 2017. Available on [my website](http://chrispbridge.wordpress.com/publications).
 * C.P. Bridge, C. Ioannou, and J.A. Noble, “Automated Annotation and Quantitative Description of Ultrasound Videos of the Fetal Heart”, *Medical Image Analysis* 36 (Feb. 2017), pp. 147-161
+* C.P. Bridge, Christos Ioannou, and J.A. Noble, “Localizing Cardiac Structures in Fetal Heart Ultrasound Video”, *Machine Learning in Medical Imaging Workshop, MICCAI, 2017*, pp. 246-255. Original article available [here](https://link.springer.com/chapter/10.1007/978-3-319-67389-9_29). Authors' manuscript available on [my website](http://chrispbridge.wordpress.com/publications).
 
-If you use this library in your research, please consider citing this paper. Other relevant publications include:
+If you use this library in your research, please consider citing these papers. Other relevant publications include:
 
 * C.P. Bridge and J.A. Noble, “Object Localisation In Fetal Ultrasound Images Using Invariant Features”. Proceedings of the IEEE International Symposium on Biomedical Imaging, New York City, 2015
 
