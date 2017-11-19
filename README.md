@@ -20,11 +20,10 @@ extract features avoiding data-races (note that only the functions that are expl
 described as thread-safe in the documentation should be used within parallel segments).
 
 A detailed description of how the feature extraction method works, an evalution,
-and citations of relevant scientific literature will be found in my forthcoming
-DPhil (PhD) thesis, which will be uploaded on
-[this page](https://chrispbridge.wordpress.com/publications/) when it is finished.
+and citations of relevant scientific literature can be found in my
+[DPhil (PhD) thesis](https://chrisbridge.science/docs/bridge_thesis.pdf).
 You can find out more about how I am using the library on my
-[website](https://chrispbridge.wordpress.com/).
+[website](https://chrisbridge.science/).
 
 **Disclaimer** This is research-quality code I have provided to enable others
 to understand, reproduce and develop my research. It is **not** intended to be
@@ -126,9 +125,9 @@ which you can view by opening `index.html` in your browser.
 ### Publications
 
 This library was used in the following publications:
-* C.P. Bridge, “Computer-Aided Analysis of Fetal Cardiac Ultrasound Videos”, DPhil Thesis, University of Oxford, 2017. Available on [my website](http://chrispbridge.wordpress.com/publications).
+* C.P. Bridge, “Computer-Aided Analysis of Fetal Cardiac Ultrasound Videos”, DPhil Thesis, University of Oxford, 2017. Available on [my website](https://chrisbridge.science/publications.html).
 * C.P. Bridge, C. Ioannou, and J.A. Noble, “Automated Annotation and Quantitative Description of Ultrasound Videos of the Fetal Heart”, *Medical Image Analysis* 36 (Feb. 2017), pp. 147-161
-* C.P. Bridge, Christos Ioannou, and J.A. Noble, “Localizing Cardiac Structures in Fetal Heart Ultrasound Video”, *Machine Learning in Medical Imaging Workshop, MICCAI, 2017*, pp. 246-255. Original article available [here](https://link.springer.com/chapter/10.1007/978-3-319-67389-9_29). Authors' manuscript available on [my website](http://chrispbridge.wordpress.com/publications).
+* C.P. Bridge, Christos Ioannou, and J.A. Noble, “Localizing Cardiac Structures in Fetal Heart Ultrasound Video”, *Machine Learning in Medical Imaging Workshop, MICCAI, 2017*, pp. 246-255. Original article available [here](https://link.springer.com/chapter/10.1007/978-3-319-67389-9_29). Authors' manuscript available on [my website](https://chrisbridge.science/publications.html).
 
 If you use this library in your research, please consider citing these papers. Other relevant publications include:
 
