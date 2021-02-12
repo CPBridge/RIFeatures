@@ -33,8 +33,8 @@ int main( int argc, char** argv )
 	}
 
 	// Get the dimensions of the video
-	const int xsize = vid_obj.get(CV_CAP_PROP_FRAME_WIDTH);
-	const int ysize = vid_obj.get(CV_CAP_PROP_FRAME_HEIGHT);
+	const int xsize = vid_obj.get(cv::CAP_PROP_FRAME_WIDTH);
+	const int ysize = vid_obj.get(cv::CAP_PROP_FRAME_HEIGHT);
 
 	// Parameters of the feature extractor object setup:
 
@@ -106,7 +106,7 @@ int main( int argc, char** argv )
 		// If the frame is RGB, convert to greyscale
 		if(frame.channels() > 1)
 		{
-			cvtColor(frame,frame,CV_BGR2GRAY);
+			cvtColor(frame,frame,cv::COLOR_BGR2GRAY);
 		}
 
 		// Calculate the gradient image using OpenCV's Sobel filter

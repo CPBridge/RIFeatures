@@ -1070,7 +1070,7 @@ void RIFeatExtractor::setScalarInputImage(const cv::Mat &in)
 	if(I.channels() > 1)
 	{
 		cv::Mat one_chan;
-		cvtColor(in,one_chan,CV_BGR2GRAY);
+		cvtColor(in,one_chan,cv::COLOR_BGR2GRAY);
 		one_chan.convertTo(I,CV_32F);
 	}
 	else

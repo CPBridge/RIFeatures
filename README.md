@@ -37,7 +37,7 @@ it correctly.
 
 * A C++ compiler supporting the C++11 standard (requires a relatively modern version of your compiler).
 * A C++ compiler supporting the [OpenMP](http://openmp.org/wp/) standard (includes most major compilers on major platforms including MSVC, g++ and clang).
-* The [OpenCV](http://opencv.org) library. Tested on version 3.1.0 but most fairly recent
+* The [OpenCV](http://opencv.org) library. Tested on version 4.2 but most fairly recent
 versions should be compatible. If you are using GNU/Linux, there will probably
 be a suitable packaged version in your distribution's repository.
 * The [boost](http://www.boost.org) [special functions](http://www.boost.org/doc/libs/1_62_0/libs/math/doc/html/special.html) library. Again there is likely to be a suitable packaged version on your GNU/Linux distribution.
@@ -86,7 +86,7 @@ Then when compiling your code, make sure to link against OpenCV and the `librife
 shared object, as well as using c++11 or later and the OpenMP extensions. E.g. to compile a source file called `my_program.cpp` to produce an executable called `my_program`, use something like the following:
 
 ```bash
-$ g++ -std=c++11 -fopenmp -o my_program my_program.cpp `pkg-config --libs opencv` -lrifeatures
+$ g++ -std=c++11 -fopenmp -o my_program my_program.cpp `pkg-config --libs opencv4` -lrifeatures
 ```
 
 If you have decided not to install the library on your system as above, you just

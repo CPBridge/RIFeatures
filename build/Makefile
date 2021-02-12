@@ -44,4 +44,4 @@ uninstall:
 	rm -rf $(HEADER_INSTALL_DIR)
 
 example:
-	$(CXX) $(CXX_FLAGS_RELEASE) -I ../include/ -o example ../example/rotinv_test.cpp `pkg-config --libs opencv` -L . -l rifeatures
+	$(CXX) $(CXX_FLAGS_RELEASE) -I ../include/ -o example ../example/rotinv_test.cpp `pkg-config --libs opencv4` -L . -l rifeatures
